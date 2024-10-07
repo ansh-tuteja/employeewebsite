@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Todoist</title>
+    <link rel="stylesheet" href="admin.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"/>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Work+Sans:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="navbar">
+        <img src="review1.png" alt=""> 
+        <span>Tanuj</span> <br> <br> <br> <br> <br> <br> <br> <br>
+        <a href="admin.html"><i class="fa-solid fa-house"></i></a> <br>  <br>
+        <a href=""><i class="fa-solid fa-clipboard-user"></a></i>
+        <a href="index.html" id="logout"><i class="fa-solid fa-right-from-bracket"></i></a>
+    </div>
+
+    <div class="dash"> 
+        <div class="head">
+            <div class="welcome">
+                <span id="wel"><b>Welcome, Tanuj!</b></span> <br>
+                <span id="tag">Check Task Progress</span>
+            </div>
+            <div class="search">
+                <input type="search" placeholder="Search">
+            </div>
+        </div>
+
+        <div class="task-assigned">
+            <div class="align" id="align">
+                <h2>Urgent Tasks</h2>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="addtask">
+                <h3>Add a Task</h3>
+                <input type="text" id="taskName" placeholder="Task Name"> <br>
+                <input type="text" id="taskDescription" placeholder="Task Description"> <br>
+                <input type="date" id="dueDate"> <br>
+                <select id="assignee">
+                    <option value="select">Select To Assign</option>
+                    <option value="Anmol">Anmol</option> 
+                    <option value="Ansh">Ansh</option>
+                </select> <br>
+                <input type="submit" value="Assign Task" onclick="assignTask()">
+            </div>
+
+            <div class="messages">
+                <h2>New Messages</h2>
+                <div class="mess">
+                    <span id="dp"><img src="review4.png" alt="">&ensp;<h4>Ansh</h4></span>
+                    <p>Assign the following code tasks to Tanuj for implementation and testing in the upcoming sprint.</p>
+                </div>
+                <br>
+                <div class="mess">
+                    <span id="dp"><img src="review3.png" alt="">&ensp;<h4>Anmol</h4></span>
+                    <p>Just completed the previous task of fixng bugs on the pomodro project.</p>
+                </div>
+            </div>
+
+            <div class="team">
+                <h2>Team</h2> 
+                <br> <br> <br>
+                <div class="img">
+                    <span><img src="review1.png" alt="" ><br><pre class="names_inpre"> Tanuj (Admin) </pre></span>
+                    <span><img src="review3.png" alt=""> <br><pre class="names_inpre">     Ansh</pre> </span> <br>
+                    <span><img src="review4.png" alt=""> <br><pre class="names_inpre">    Anmol</pre></span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function assignTask() {
+            const taskName = document.getElementById("taskName").value;
+            const taskDescription = document.getElementById("taskDescription").value;
+            const dueDate = document.getElementById("dueDate").value;
+            const assignee = document.getElementById("assignee").value;
+
+            if (assignee === "select") {
+                alert("Please select an assignee");
+                return;
+            }
+
+            // Store the task in local storage under a common key
+            let tasks = JSON.parse(localStorage.getItem('tasks')) || [];
+            tasks.push({ name: taskName, description: taskDescription, date: dueDate, assignedTo: assignee, status: 'Pending' });
+            localStorage.setItem('tasks', JSON.stringify(tasks));
+
+            alert(`Task assigned to ${assignee}`);
+            document.getElementById("taskName").value = '';
+            document.getElementById("taskDescription").value = '';
+            document.getElementById("dueDate").value = '';
+            document.getElementById("assignee").value = 'select';
+        }
+    </script>
+</body>
+</html>

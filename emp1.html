@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="emp1.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"/>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Work+Sans:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="navbar">
+        <img src="review3.png" alt=""> <br> 
+        <span>Ansh</span> <br> <br> <br> <br> <br> <br> <br> <br>
+
+        <a href="#"><i class="fa-solid fa-house"></i></a> <br>  <br>
+        <a href=""><i class="fa-solid fa-clipboard-user"></a></i>
+        <a href="index.html" id="logout"><i class="fa-solid fa-right-from-bracket"></i></a>
+    </div>
+
+    <div class="dash">
+        <div class="head">
+            <div class="welcome">
+                <span id="wel"><b>Welcome, Ansh!</b></span> <br>
+                <span id="tag">Check Task Progress</span>
+            </div>
+            <div class="search">
+                <input type="search" placeholder="Search">
+            </div>
+        </div>
+
+        <div class="task-assigned">
+            <div class="align">
+                <h2>Tasks Assigned To You</h2>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="team">
+                <h2>Team you are Working With</h2> 
+                <div class="img">
+                    <span><img src="review1.png" alt=""><br>Tanuj (Admin)</span>
+                    <span><img src="review3.png" alt=""> <br><pre>     Ansh</pre> </span>
+                    <span><img src="review4.png" alt=""> <br><pre>    Anmol</pre></span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const employeeName = 'Ansh'; // Current employee name
+            
+            // Load tasks from localStorage
+            let tasks = JSON.parse(localStorage.getItem('tasks')) || [];
+            const taskAssignedDiv = document.querySelector('.align');
+
+            // Filter tasks assigned to this employee
+            const employeeTasks = tasks.filter(task => task.assignedTo === employeeName);
+
+            // Display tasks assigned to the employee
+            if (employeeTasks.length > 0) {
+                employeeTasks.forEach((task, index) => {
+                    const taskElement = document.createElement('span');
+                    taskElement.classList.add('tasks');
+                    taskElement.innerHTML = `
+                        <span>${task.name} &ensp;
+                        <button class="done-btn" data-index="${index}">Mark as Done</button></span>
+                        <span id="date"><i class="fa-solid fa-circle-dot" style="color: ${task.status === 'Pending' ? '#ff0000' : '#00ff00'};"></i> ${task.date}</span>
+                    `;
+                    taskAssignedDiv.appendChild(taskElement);
+                    taskAssignedDiv.appendChild(document.createElement('hr'));
+                });
+            } else {
+                taskAssignedDiv.innerHTML = '<p>No tasks assigned.</p>';
+            }
+
+            // Mark tasks as done
+            document.querySelectorAll('.done-btn').forEach(button => {
+                button.addEventListener('click', function() {
+                    const taskIndex = button.getAttribute('data-index');
+                    tasks[taskIndex].status = 'Done'; // Update task status
+                    localStorage.setItem('tasks', JSON.stringify(tasks)); // Save updated tasks to localStorage
+                    location.reload(); // Reload to reflect changes
+                });
+            });
+        });
+    </script>
+</body>
+</html>
